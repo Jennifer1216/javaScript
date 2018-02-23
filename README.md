@@ -59,3 +59,5 @@ alert(a);//我是函数2
 - 执行
   alert(a);//函数体（函数1）
   alert(a);//函数体（函数1）
+### 作用域
+[javaScript作用域](https://github.com/Jennifer1216/javaScript/blob/master/README.md)
