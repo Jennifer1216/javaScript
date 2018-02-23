@@ -42,7 +42,7 @@ alert(a);
   alert(a);//若按照从下到下解析顺序结果应为undefined,但是由于var 和function关键字且变量名一样时，function的优先级高于var,所以结果为函数块function a() {alert("我是function");}
   a =1;
   alert(a);//结果为1
-### 情况三：函数声明一样，后面的会覆盖前面
+### 情况四：函数声明一样，后面的会覆盖前面
 ```javascript
 alert(a);//我是函数2
 function a() {
