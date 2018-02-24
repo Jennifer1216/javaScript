@@ -60,5 +60,6 @@ alert(a);//我是函数2
 - 执行
   alert(a);//函数体（函数1）
   alert(a);//函数体（函数1）
-#### 作用域
+#### 目录
 [javaScript作用域](https://github.com/Jennifer1216/javaScript/blob/master/%E4%BD%9C%E7%94%A8%E5%9F%9F.md)
+[原生js实现相册拖拽](https://github.com/Jennifer1216/javaScript/blob/master/%E4%BD%9C%E7%94%A8%E5%9F%9F.md)
