@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="Jennifer">
+    <title>dragPhoto</title>
+    <script src="move.js"></script>
+    <style>
+        *{margin:0;padding:0;font-family: Microsoft YaHei,serif;}
+	    li{list-style: none;}
+        li {float:left;}
+        .clearfix::after {
+            display: block;
+            content: '';
+            width:0;
+            height: 0;
+            visibility: hidden;
+            clear:both;
+        }
+        .clearfix {
+            *zoom:1;
+        }
+        .photo {
+            position: relative;
+            margin:20px auto 0;
+            width: 672px;
+        }
+        .photo li {
+            float: left;
+            margin:10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border:1px solid transparent;
+        }
+        .photo img {
+            width: 200px;
+            height: 200px;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="photo">
+        <ul>
+            <li><img src="images/1.jpg" alt=""></li>
+            <li><img src="images/2.jpg" alt=""></li>
+            <li><img src="images/3.jpg" alt=""></li>
+            <li><img src="images/4.jpg" alt=""></li>
+            <li><img src="images/5.jpg" alt=""></li>
+            <li><img src="images/6.jpg" alt=""></li>
+            <li><img src="images/7.jpg" alt=""></li>
+            <li><img src="images/8.jpg" alt=""></li>
+            <li><img src="images/9.jpg" alt=""></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var oUl = document.getElementsByTagName("ul")[0],
+            aLi = oUl.getElementsByTagName("li"),
+            arr = [],
+            z = 1;
+        /*for(var i = 0; i < aLi.length; i++){
+            aLi[i].style.left = i%3*200+"px";
+            aLi[i].style.top= Math.floor(i/3)*200+"px";
+            aLi[i].index = i;
+            aLi[i].ondragstart = function () {
+                mark = this.index;
+            };
+            aLi[i].ondragenter = function () {
+                for (var i=0;i<aLi.length ;i++ )
+                {
+                    aLi[i].style.border = "none";
+                }
+                if (mark !== this.index) {
+                    this.style.border = "1px solid #000";
+                }
+            };
+            aLi[i].ondragover = function(ev){
+                ev = ev||window.event;
+                ev.preventDefault();
+            };
+            aLi[i].ondrop = function(){
+                //在目标元素前面添加被拖拽元素
+                //ul.insertBefore(oLi[mark],this);
+                insertAfter(aLi[mark],this);
+                this.style.border = "none";
+            };
+            function insertAfter(newItem,targetItem){
+                var parentItem = targetItem.parentNode;//获取目标元素的父元素节点
+                if (parentItem.lastChild === targetItem)
+                {
+                    parentItem.appendChild(newItem);
+                }else{
+                    parentItem.insertBefore(newItem,targetItem.nextSibling);
+                }
+            }
+        }*/
+        for(var i = 0; i < aLi.length; i++){
+            arr.push([aLi[i].offsetLeft,aLi[i].offsetTop]);
+        }
+        //console.log(arr);
+        //将浮动布局改为绝对定位
+        for(var i = 0; i < aLi.length; i++){
+            //aLi[i].index = i;
+            aLi[i].style.position = "absolute";
+            aLi[i].style.left = arr[i][0] + "px";
+            aLi[i].style.top = arr[i][1] + "px";
+            aLi[i].style.margin = 0;
+           // drag(aLi[i])
+        }
+        for(i =0; i< aLi.length;i++){
+            aLi[i].index = i;
+            drag(aLi[i]);
+        }
+        function drag(Ele){
+            Ele.onmousedown = function (e) {
+                e = e || window.event;
+                var x = e.clientX,
+                    y = e.clientY,
+                    l = this.offsetLeft,
+                    t = this.offsetTop;
+                this.style.zIndex = z++;
+                document.onmousemove = function (e) {
+                    e = e || window.event;
+                    var left = e.clientX - x + l,
+                        top = e.clientY - y + t;
+                    Ele.style.left = left + "px";
+                    Ele.style.top = top + "px";
+                    //检测碰撞
+                    /*for(var i = 0; i < aLi.length; i++){
+                        if(impact(Ele,aLi[i]) && Ele!== aLi[i]) {
+                            aLi[i].style.border = "1px solid red";
+                        }
+                    }*/
+                    var li = near(Ele);
+                    //先清空其他的边框
+                    for (var i=0;i<aLi.length;i++ ) {
+                        aLi[i].style.border = "";
+                    }
+                    if(li){
+                        li.style.border = "1px solid red";
+                    }
+                };
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    var nearLi = near(Ele),
+                        tmp = 0;
+                    if (nearLi)
+                    {
+                        move2(nearLi,{left:arr[Ele.index][0],top:arr[Ele.index][1]},300);
+                        move2(Ele,{left:arr[nearLi.index][0],top:arr[nearLi.index][1]},300);
+                        nearLi.style.border = '';
+                        tmp = Ele.index;
+                        Ele.index = nearLi.index;
+                        nearLi.index = tmp;
+                    }else{
+                        move2(Ele,{left:arr[Ele.index][0],top:arr[Ele.index][1]});
+                    }
+                };
+                return false;//阻止图片默认拖拽事件
+            }
+        }
+        function impact(obj1,obj2) {
+            var L1 = obj1.offsetLeft,
+                R1 = obj1.offsetLeft + obj1.offsetWidth,
+                T1 = obj1.offsetTop,
+                B1 = obj1.offsetTop + obj1.offsetHeight,
+                L2 = obj2.offsetLeft,
+                R2 = obj2.offsetLeft + obj2.offsetWidth,
+                T2 = obj2.offsetTop,
+                B2 = obj2.offsetTop + obj2.offsetHeight;
+            if(R1 < L2 || B1 < T2 || L1 > R2 || T1 > B2) {
+                return false;
+            }else {
+                return true;
+            }
+        }
+        function near(Ele){
+            var n = 100000;
+            var oLi = '';
+            for (var i=0;i<aLi.length ;i++ )
+            {
+                if (impact(Ele,aLi[i]) && Ele !== aLi[i])
+                {
+                    var c = distance(Ele,aLi[i]);//获取碰撞成功的li之间的距离
+                    if (c<n)
+                    {
+                        n = c;
+                        oLi = aLi[i];//把距离最近的Li保存起来
+                    }
+                }
+            }
+            return oLi;
+        }
+        function distance(obj1,obj2){
+            var a = obj1.offsetLeft - obj2.offsetLeft,
+                b = obj1.offsetTop - obj2.offsetTop;
+            return Math.sqrt(Math.pow(a,2)*Math.pow(b,2))
+        }
+    </script>
+</body>
+</html>
