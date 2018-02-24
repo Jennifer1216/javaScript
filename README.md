@@ -1,5 +1,5 @@
 # javaScript
-## javaScript解析顺序
+*javaScript解析顺序*
 ES5中变量声明可以用var和function关键字,
 
 变量声明会提升（声明只是声明变量，不包括赋值）,
