@@ -64,3 +64,8 @@ alert(a);//我是函数2
 ###### [javaScript作用域](https://github.com/Jennifer1216/javaScript/blob/master/%E4%BD%9C%E7%94%A8%E5%9F%9F.md)
 ###### [原生js实现相册拖拽](https://github.com/Jennifer1216/javaScript/blob/master/dragPhoto/dragPhotos.html)
 ###### [盒模型](https://github.com/Jennifer1216/javaScript/blob/master/%E7%9B%92%E6%A8%A1%E5%9E%8B.md)
+###### [清除浮动](https://github.com/Jennifer1216/javaScript/blob/master/%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8.md)
+###### [优化js代码技巧](https://github.com/Jennifer1216/javaScript/blob/master/%E4%BC%98%E5%8C%96js%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7.md)
+###### [js中的"this"](https://github.com/Jennifer1216/javaScript/blob/master/this.md)
+###### [object-fit和object-position](https://github.com/Jennifer1216/javaScript/blob/master/object-fit%E5%92%8Cobject-positon.md)
+###### [margin百分比](https://github.com/Jennifer1216/javaScript/blob/master/margin%E7%99%BE%E5%88%86%E6%AF%94.md)
