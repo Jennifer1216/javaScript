@@ -1,0 +1,26 @@
+# 用了浮动就会影响到浏览器的兼容，主要表现在背景不能按需求延伸，或者浮动下方的排版会变化
+
+![清除浮动的六种方式](http://p3.pstatp.com/large/437a0001c1f499846274)
+
+html代码
+
+![清除浮动的六种方式](http://p3.pstatp.com/large/4376000424a22ab3d8e7)
+
+css
+
+![清除浮动的六种方式](http://p1.pstatp.com/large/43780001c76b7577c9de)
+
+**按道理来说外层盒子会根据内容来撑开 ，但是我们会发现盒子并没有撑开，而是高度塌陷（脱离文档流），在这种情况下就要清除浮动：**
+
+- 在浮动元素下加子元素<div class="clear"></div>然后设置样式 .clear{ height:0px;font-size:0;clear:both;}；
+- 在浮动元素下面（与浮动元素同级）加<br clear="all"/>
+- 给浮动元素的父级也加浮动(这种情况当父级margin:0 auto时不居中)
+- 给父级加display:inline-block;(同方法3,不居中,只有IE6,7居中)
+- 给浮动元素父级加overflow:hidden/auto,虽然两种都可以，但建议使用auto,有利于SEO优化;
+- 时下主流
+
+在设置浮动的元素，其父级添加类名：一般（.clearfix）
+
+.clearfix:after{clear:both;content:" ";display:block;font-size:0;height:0;visibility:hidden}
+
+.clearfix{*zoom:1}
