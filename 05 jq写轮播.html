@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="Jennifer">
+    <title>jQuery轮播</title>
+    <style>
+        *{margin:0;padding:0;font-family: Microsoft YaHei,serif;}
+	    li{list-style: none;}
+        #box{
+            position: relative;
+            width: 500px;
+            height: 300px;
+            margin:50px auto;
+        }
+        div.pic{
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .pic ul{
+            position: absolute;
+            width: 1000%;
+            height: 100%;
+        }
+        .pic ul li{
+
+            float: left;
+            width: 500px;
+            height: 100%;
+            font-size:100px;
+            text-align: center;
+            line-height: 300px;
+            color:#fff;
+        }
+        .pic ul li:nth-child(1){
+            background: red;
+        }
+        .pic ul li:nth-child(2){
+            background: pink;
+        }
+        .pic ul li:nth-child(3){
+            background: green;
+        }
+        .pic ul li:nth-child(4){
+            background: skyblue;
+        }
+        .pic ul li:nth-child(5){
+            background: burlywood;
+        }
+        .tab{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 500px;
+            height: 30px;
+
+        }
+        .tab ul{
+
+            width: 100px;
+            margin:0 auto;
+            height: 10px;
+            padding:5px;
+            border-radius: 15px;
+            background: rgba(0,0,0,.5);
+        }
+        .tab li{
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin:0 5px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        .tab li.on{
+            background: #f60;
+        }
+        .btn{
+            position: absolute;
+            top: 50%;
+            width: 25px;
+            height: 50px;
+            margin-top:-25px;
+            background: rgba(0,0,0,.5);
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+            color:#fff;
+            font-weight: bold;
+        }
+        .right{
+            right: 0;
+        }
+    </style>
+     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+<div id="box">
+    <div class="pic">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="tab">
+        <ul>
+            <li class="on"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="btn left">&lt;</div>
+    <div class="btn right">&gt;</div>
+</div>
+<script>
+    $(function () {
+        var $tab = $(".tab li"),
+            $picUl = $(".pic ul"),
+            $width = $picUl.children().eq(0).width(),
+            $prev = $(".left"),
+            $next = $(".right"),
+            index = 0;
+        $tab.click(function () {
+            $(this)
+                .addClass("on")
+                .siblings()
+                .removeClass("on");
+            index = $(this).index();
+            $picUl.animate({
+                left:-index*$width
+            },500)
+        });
+
+        $next.click(function () {
+            index++;
+            index%=$tab.length;
+            $tab.eq(index).addClass("on")
+                .siblings()
+                .removeClass("on");
+            $picUl.animate({
+                left:-index*$width
+            },500)
+        });
+
+        $prev.click(function () {
+            index--;
+            index<0?index = $tab.length-1:index;
+            $tab.eq(index).addClass("on")
+                .siblings()
+                .removeClass("on");
+            $picUl.animate({
+                left:-index*$width
+            },500)
+        })
+    })
+</script>
+</body>
+</html>
