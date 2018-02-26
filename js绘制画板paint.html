@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="FengYu">
+    <title>Tz-36期Js</title>
+    <style>
+        *{margin:0;padding:0;font-family: Microsoft YaHei,serif;}
+	    li{list-style: none;}
+        p{
+            text-align: center;
+            padding:20px;
+        }
+        #paint{
+            width: 99%;
+            height: 500px;
+            margin:0 auto;
+            border:1px solid black;
+        }
+        #paint div{
+            position: absolute;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body ondragstart="return false">
+<p>
+    <span>粗细</span>
+    <select id="sct1">
+        <option value="8">8</option>
+        <option value="10">10</option>
+        <option value="12">12</option>
+        <option value="14">14</option>
+    </select>
+    <span>颜色</span>
+    <select id="sct2">
+        <option value="green">绿色</option>
+        <option value="pink">粉色</option>
+        <option value="skyblue">天蓝色</option>
+        <option value="red">红色</option>
+    </select>
+    <button id="null">清空</button>
+    <button id="revoke">撤回</button>
+    <button id="unrevoke">反撤回</button>
+</p>
+<div id="paint"></div>
+<script>
+    var sct1 = document.getElementById("sct1"),
+        sct2 = document.getElementById("sct2"),
+        Null = document.getElementById("null"),
+        revoke = document.getElementById("revoke"),
+        unrevoke = document.getElementById("unrevoke"),
+        paint = document.getElementById("paint"),
+        arrRevoke = [],//撤回  存每一笔的记录
+        arrUnrevoke = [];//反撤回  存撤回的记录
+    
+
+
+    paint.onmousedown=function () {
+        arrRevoke[arrRevoke.length] = [];
+
+        this.onmousemove=function (e) {
+            e = e || window.event;
+            var div = document.createElement("div");
+                div.style.width = div.style.height = sct1.value + "px";
+                div.style.backgroundColor = sct2.value;
+                div.style.left = e.clientX + "px";
+                div.style.top = e.clientY + "px";
+
+            paint.appendChild(div)
+            arrRevoke[arrRevoke.length-1].push(div)
+        }
+
+    }
+
+    document.onmouseup=function () {
+        console.log(arrRevoke)
+        paint.onmousemove = null;
+    }
+
+    //清空
+    Null.onclick=function () {
+        paint.innerHTML = "";
+        arrRevoke = [];
+        arrUnrevoke = [];
+    }
+    //撤回
+    revoke.onclick=function () {
+        if(arrRevoke.length){
+            for(var i=0;i<arrRevoke[arrRevoke.length-1].length;i++){
+                paint.removeChild(arrRevoke[arrRevoke.length-1][i])
+            }
+            arrUnrevoke.push(arrRevoke.pop())
+        }
+    }
+    //反撤回
+    unrevoke.onclick=function () {
+        if(arrUnrevoke.length){
+            for(var i=0;i<arrUnrevoke[arrUnrevoke.length-1].length;i++){
+                paint.appendChild(arrUnrevoke[arrUnrevoke.length-1][i])
+            }
+            arrRevoke.push(arrUnrevoke.pop())
+        }
+    }
+
+</script>
+</body>
+</html>
